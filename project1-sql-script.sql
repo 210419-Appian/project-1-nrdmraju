@@ -6,6 +6,12 @@ CREATE TABLE roles (
 	role_description VARCHAR(20) NOT NULL UNIQUE
 );
 
+INSERT INTO roles(role_id, role_description) 
+	VALUES (1, 'Admin'),
+			(2, 'Employee'),
+			(3, 'Standard'),
+			(4, 'Premium');
+
 DROP TABLE account_status;
 
 CREATE TABLE account_status(
@@ -13,12 +19,23 @@ status_id INTEGER PRIMARY KEY,
 status VARCHAR(15) NOT NULL UNIQUE
 );
 
+INSERT INTO account_status(status_id, status) 
+	VALUES (1, 'Pending'),
+			(2, 'Closed'),
+			(3, 'Open'),
+			(4, 'Denied');
+
+
 DROP TABLE account_types;
 
 CREATE TABLE account_types(
 type_id INTEGER PRIMARY KEY,
 type_description VARCHAR(15) NOT NULL UNIQUE 
 );
+
+INSERT INTO account_types (type_id, type_description) 
+	VALUES (1, 'Checking'),
+			(2, 'Savings');
 
 
 DROP TABLE users;
