@@ -41,7 +41,7 @@ INSERT INTO account_types (type_id, type_description)
 DROP TABLE users;
 
 CREATE TABLE users (
-	user_id integer PRIMARY KEY,
+	user_id SERIAL PRIMARY KEY,
 	username varchar(30) NOT NULL,
 	user_password VARCHAR(30) NOT NULL, 
 	first_name VARCHAR(25) NOT NULL,
@@ -55,7 +55,7 @@ DROP TABLE account;
 DROP TABLE accounts;
 
 CREATE TABLE accounts(
- accountId INTEGER PRIMARY KEY, 
+ account_Id SERIAL PRIMARY KEY, 
  balance INTEGER NOT NULL,
  account_status INTEGER REFERENCES account_status(status_id),
  account_type INTEGER REFERENCES account_types(type_id),

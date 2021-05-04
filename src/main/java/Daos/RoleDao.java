@@ -7,7 +7,7 @@ import models.Role;
 public interface RoleDao {
 	
 	public List<Role> findAll();
-	public Role findById(int role_id);
-	public Role findByRole(String role);
+	public Role findByRoleId(int role_id);
+//	public Role findByRole(String role);
 
 }

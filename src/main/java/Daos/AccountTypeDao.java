@@ -1,12 +1,12 @@
 package Daos;
 
-import java.util.List;
-
 import models.AccountType;
+
+import java.util.List;
 
 public interface AccountTypeDao {
 	
 	public List<AccountType> findAll();
-	public AccountType findById(int type_id);
+	public AccountType findByAccountTypeId(int type_id);
 	public AccountType findByType(String type);
 }
