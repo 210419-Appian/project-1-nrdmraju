@@ -51,11 +51,13 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", role=" + role + "]";
 	}
+	
 	public User(int userId, String username, String password, String firstName, String lastName, String email,
 			Role role) {
 		super();

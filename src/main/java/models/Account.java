@@ -29,13 +29,13 @@ public class Account {
 	public void setType(AccountType type) {
 		this.type = type;
 	}
+	
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", balance=" + balance + ", status=" + status + ", type=" + type
-				+ ", getAccountId()=" + getAccountId() + ", getBalance()=" + getBalance() + ", getStatus()="
-				+ getStatus() + ", getType()=" + getType() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ "]";
 	}
+	
 	public Account(int accountId, double balance, AccountStatus status, AccountType type) {
 		super();
 		this.accountId = accountId;

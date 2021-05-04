@@ -15,12 +15,12 @@ public class AccountStatus {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	@Override
 	public String toString() {
-		return "AccountStatus [statusId=" + statusId + ", status=" + status + ", getStatusId()=" + getStatusId()
-				+ ", getStatus()=" + getStatus() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+		return "AccountStatus [statusId=" + statusId + ", status=" + status + "]";
 	}
+
 	public AccountStatus(int statusId, String status) {
 		super();
 		this.statusId = statusId;

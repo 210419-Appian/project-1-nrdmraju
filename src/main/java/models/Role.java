@@ -15,12 +15,12 @@ public class Role {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", role=" + role + ", getRoleId()=" + getRoleId() + ", getRole()=" + getRole()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+		return "Role [roleId=" + roleId + ", role=" + role + "]";
 	}
+	
 	public Role(int roleId, String role) {
 		super();
 		this.roleId = roleId;

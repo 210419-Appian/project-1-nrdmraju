@@ -15,12 +15,12 @@ public class AccountType {
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	@Override
 	public String toString() {
-		return "AccountType [typeId=" + typeId + ", type=" + type + ", getTypeId()=" + getTypeId() + ", getType()="
-				+ getType() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return "AccountType [typeId=" + typeId + ", type=" + type + "]";
 	}
+	
 	public AccountType(int typeId, String type) {
 		super();
 		this.typeId = typeId;
