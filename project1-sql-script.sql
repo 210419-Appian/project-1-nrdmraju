@@ -62,3 +62,7 @@ CREATE TABLE accounts(
  user_id INTEGER REFERENCES users(user_id)
 );
 
+
+INSERT INTO users(user_id, username, first_name, last_name, email, user_password, user_role)
+VALUES (1, 'neild', 'Neil', 'Damaraju', 'neil123@blahblah.com', 'password', 1 ),
+		(2, 'samt', 'Sam', 'Taylor', 'sam.taylor@blahblah.com', 'password1', 3 );
