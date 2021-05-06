@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Role;
-
-import utils.ConnectionUtil;
+import com.revature.utils.ConnectionUtil;
 
 
 public class RoleDaoImpl implements RoleDao {
@@ -27,12 +26,12 @@ public class RoleDaoImpl implements RoleDao {
 
 			List<Role> list = new ArrayList<>();
 			
-			Role role = new Role();
 			
 			while (result.next()) {
+				Role role = new Role();
 				role.setRoleId(result.getInt("role_id"));
 				role.setRole(result.getString("role_description"));
-			
+				list.add(role);
 			}
 			return list;
 		} catch (SQLException e) {

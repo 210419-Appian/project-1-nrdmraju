@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.AccountType;
-
-import utils.ConnectionUtil;
+import com.revature.utils.ConnectionUtil;
 
 public class AccountTypeDaoImpl implements AccountTypeDao {
 	
@@ -26,12 +25,13 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 			List<AccountType> list = new ArrayList<>();
 			
-			AccountType type = new AccountType ();
+//			AccountType type = new AccountType ();
 			
 			while (result.next()) {
+				AccountType type = new AccountType ();
 				type.setTypeId(result.getInt("type_id"));
-				type.setType(result.getString("type"));
-			
+				type.setType(result.getString("type_description"));
+				list.add(type);
 			}
 			return list;
 		} catch (SQLException e) {
@@ -41,14 +41,14 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 	}
 
 	@Override
-	public AccountType findByAccountTypeId(int type_id) {
+	public AccountType findByAccountTypeId(int typeId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM account_type WHERE type_id = ?;";
+			String sql = "SELECT * FROM account_types WHERE type_id = ?;";
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
-			statement.setInt(1, type_id);
+			statement.setInt(1, typeId);
 
 			ResultSet result = statement.executeQuery();
 
@@ -56,7 +56,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 			while (result.next()) {
 				type.setTypeId(result.getInt("type_id"));
-				type.setType(result.getString("type"));
+				type.setType(result.getString("type_description"));
 			
 			}
 

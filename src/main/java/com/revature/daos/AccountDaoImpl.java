@@ -1,5 +1,174 @@
 package com.revature.daos;
 
-public class AccountDaoImpl {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.models.Account;
+import com.revature.models.AccountStatus;
+import com.revature.models.AccountType;
+import com.revature.utils.ConnectionUtil;
+
+public class AccountDaoImpl implements AccountDao {
+
+	private static UserDao uDao = new UserDaoImpl();
+	private static AccountTypeDao  aDao = new AccountTypeDaoImpl();
+	private static AccountStatusDao asDao = new AccountStatusDaoImpl();
+	
+//	CREATE TABLE accounts(
+//			 account_Id SERIAL PRIMARY KEY, 
+//			 balance DOUBLE PRECISION NOT NULL,
+//			 account_status INTEGER REFERENCES account_status(status_id),
+//			 account_type INTEGER REFERENCES account_types(type_id),
+//			 user_id INTEGER REFERENCES users(user_id)
+//			);
+//	
+//	public class Account {
+//		  private int accountId; // primary key
+//		  private double balance;  // not null
+//		  private AccountStatus status;
+//		  private AccountType type;
+//		  private int userId;
+		  
+	
+	@Override
+	public List<Account> findAll() {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM accounts;";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+
+			List<Account> list = new ArrayList<>();
+
+			while (result.next()) {
+				Account a = new Account(
+						result.getInt("account_Id"), 
+						result.getDouble("balance"), 
+						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
+						null, // account_type INTEGER REFERENCES account_types(type_id) createFindById in AccountTypeDaoImpl
+						null
+						);
+				
+				int accStatus = result.getInt("account_status");
+					a.setStatus(asDao.findByStatusId(accStatus));
+					
+				int accType = result.getInt("account_type");
+					a.setType(aDao.findByAccountTypeId(accType));
+					
+				int accUser = result.getInt("user_id");
+					a.setUser(uDao.findByUserId(accUser));
+				list.add(a);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Account findByAccountId(int id) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM accounts WHERE account_id = "+id+";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+
+			Account a = null;
+			
+			while (result.next()) {
+				 a = new Account(
+						result.getInt("account_Id"), 
+						result.getDouble("balance"), 
+						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
+						null, // account_type INTEGER REFERENCES account_types(type_id) createFindById in AccountTypeDaoImpl
+						null
+						);
+					int accStatus = result.getInt("account_status");
+					a.setStatus(asDao.findByStatusId(accStatus));
+					
+				int accType = result.getInt("account_type");
+					a.setType(aDao.findByAccountTypeId(accType));
+					
+				int accUser = result.getInt("user_id");
+					a.setUser(uDao.findByUserId(accUser));
+				 
+				}
+			return a;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean addAccount(Account a) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			//There is no chance for sql injection with just an integer so this is safe. 
+			String sql = "INSERT INTO accounts (account_id, balance, account_status, account_type, user_id)"
+					+ "	VALUES (?, ?, ?, ?, ?);";
+
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			int index = 0;
+//			statement.setInt(++index, a.getAccountId());
+			statement.setDouble(++index, a.getBalance());
+			statement.setString(++index, a.getStatus().getStatus());
+			statement.setString(++index, a.getType().getType());
+			statement.setInt(++index, a.getUser().getUserId());
+			
+// \/ F IT AND COME BACK HERE \/ 		
+			if(a.getAccount() != null) {
+				statement.setString(++index, a.getHomeBases().getName());
+			} else {
+				statement.setString(++index, null);
+			}
+			
+			statement.execute();
+			return true;
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public List<Avenger> findByHome(String homeName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addAvengerWithHome(Avenger a) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateAccount(Account a) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Account findByUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

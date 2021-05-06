@@ -13,14 +13,12 @@ public class UserService {
 
 	public List<User> getAllUsers() {
 
-		List<User> list = uDao.findAll();
-
-		return list;
+		return uDao.findAll();
 
 	}
 
-	public User findById(int user_id) {
-		return uDao.findByUserId(user_id);
+	public User findById(int userId) {
+		return uDao.findByUserId(userId);
 	}
 
 	public boolean createUser(User user) {

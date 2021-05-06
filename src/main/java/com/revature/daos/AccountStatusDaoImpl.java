@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.AccountStatus;
-
-import utils.ConnectionUtil;
+import com.revature.utils.ConnectionUtil;
 
 public class AccountStatusDaoImpl implements AccountStatusDao {
 	
@@ -26,12 +25,13 @@ public class AccountStatusDaoImpl implements AccountStatusDao {
 
 			List<AccountStatus> list = new ArrayList<>();
 			
-			AccountStatus status = new AccountStatus ();
+//			AccountStatus status = new AccountStatus ();
 			
 			while (result.next()) {
+				AccountStatus status = new AccountStatus ();
 				status.setStatusId(result.getInt("status_id"));
 				status.setStatus(result.getString("status"));
-			
+				list.add(status);
 			}
 			return list;
 		} catch (SQLException e) {
