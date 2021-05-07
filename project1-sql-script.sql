@@ -56,11 +56,15 @@ DROP TABLE accounts;
 
 CREATE TABLE accounts(
  account_Id SERIAL PRIMARY KEY, 
- balance INTEGER NOT NULL,
+ balance DOUBLE PRECISION NOT NULL,
  account_status INTEGER REFERENCES account_status(status_id),
  account_type INTEGER REFERENCES account_types(type_id),
  user_id INTEGER REFERENCES users(user_id)
 );
+
+INSERT INTO accounts(account_Id, balance, account_status, account_type, user_id)
+VALUES (1, 100.00, 4, 1, 1),
+		(2, 800.00, 3, 2, 2);
 
 
 INSERT INTO users(user_id, username, first_name, last_name, email, user_password, user_role)

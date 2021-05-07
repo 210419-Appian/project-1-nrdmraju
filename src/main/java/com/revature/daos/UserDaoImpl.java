@@ -54,6 +54,40 @@ public class UserDaoImpl implements UserDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public User findByUserId(int user_id) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM users WHERE user_id = "+user_id+";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+
+			User u = null;
+			
+			while (result.next()) {
+				 u = new User(
+						result.getInt("user_id"),
+						result.getString("username"),
+						result.getString("user_password"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						result.getString("email"),
+						null);
+				 
+					int rName = result.getInt("user_role");
+						u.setRole(rDao.findByRoleId(rName));
+				
+				}
+			return u;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public boolean addUser(User u) {
@@ -86,36 +120,6 @@ public class UserDaoImpl implements UserDao {
 	}
 	
  //HelloFrontController -> AvengerDaoImpl
-		@Override
-		public User findByUserId(int user_id) {
-			try (Connection conn = ConnectionUtil.getConnection()) {
-
-				String sql = "SELECT * FROM users WHERE user_id = "+user_id+";";
-
-				Statement statement = conn.createStatement();
-
-				ResultSet result = statement.executeQuery(sql);
-
-				User u = null;
-				
-				while (result.next()) {
-					 u = new User(
-							result.getInt("user_id"),
-							result.getString("username"),
-							result.getString("user_password"),
-							result.getString("first_name"),
-							result.getString("last_name"),
-							result.getString("email"),
-							null);
-					}
-				return u;
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
 	@Override
 	public User findByUsername(String username) {
 		// TODO Auto-generated method stub

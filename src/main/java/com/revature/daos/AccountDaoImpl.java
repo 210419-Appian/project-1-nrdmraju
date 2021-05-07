@@ -73,9 +73,11 @@ public class AccountDaoImpl implements AccountDao {
 		}
 		return null;
 	}
-
+	
+//=========================================================================================================================================================	
+	
 	@Override
-	public Account findByAccountId(int id) {
+	public List<Account> findByAccountId(int id) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
 			String sql = "SELECT * FROM accounts WHERE account_id = "+id+";";
@@ -83,11 +85,11 @@ public class AccountDaoImpl implements AccountDao {
 			Statement statement = conn.createStatement();
 
 			ResultSet result = statement.executeQuery(sql);
-
-			Account a = null;
+			
+			List<Account> list = new ArrayList<>();
 			
 			while (result.next()) {
-				 a = new Account(
+				Account abyaid = new Account(
 						result.getInt("account_Id"), 
 						result.getDouble("balance"), 
 						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
@@ -95,22 +97,102 @@ public class AccountDaoImpl implements AccountDao {
 						null
 						);
 					int accStatus = result.getInt("account_status");
-					a.setStatus(asDao.findByStatusId(accStatus));
+					abyaid.setStatus(asDao.findByStatusId(accStatus));
 					
 				int accType = result.getInt("account_type");
-					a.setType(aDao.findByAccountTypeId(accType));
+				abyaid.setType(aDao.findByAccountTypeId(accType));
 					
 				int accUser = result.getInt("user_id");
-					a.setUser(uDao.findByUserId(accUser));
-				 
+				abyaid.setUser(uDao.findByUserId(accUser));
+				
+				 list.add(abyaid);
 				}
-			return a;
+			return list;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+//=========================================================================================================================================================	
+	
+	@Override
+	public List<Account> findByUserId(int userId) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM accounts WHERE user_id = "+userId+";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+
+			List<Account> list = new ArrayList<>();
+
+			while (result.next()) {
+				Account auid = new Account(
+						result.getInt("account_Id"), 
+						result.getDouble("balance"), 
+						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
+						null, // account_type INTEGER REFERENCES account_types(type_id) createFindById in AccountTypeDaoImpl
+						null //
+						);
+					int accStatus = result.getInt("account_status");
+					auid.setStatus(asDao.findByStatusId(accStatus));
+					
+					int accType = result.getInt("account_type");
+					auid.setType(aDao.findByAccountTypeId(accType));
+					
+					int accUser = result.getInt("user_id");
+					auid.setUser(uDao.findByUserId(accUser));
+					list.add(auid);
+				}
+			return list;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		return null;
+	}
+	
+	@Override
+	public List<Account> findByAccountTypeId(int typeId) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM accounts WHERE account_type = "+typeId+";";
+
+			Statement statement = conn.createStatement();
+
+			ResultSet result = statement.executeQuery(sql);
+			
+			List<Account> list = new ArrayList<>();
+			
+			while (result.next()) {
+				Account atyid = new Account(
+						result.getInt("account_Id"), 
+						result.getDouble("balance"), 
+						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
+						null, // account_type INTEGER REFERENCES account_types(type_id) createFindById in AccountTypeDaoImpl
+						null // account_user INTEGER REFERENCES accounts(user_id) createFindById in AccountDaoImpl
+						);
+					int accStatus = result.getInt("account_status");
+					atyid.setStatus(asDao.findByStatusId(accStatus));
+					
+				int accType = result.getInt("account_type");
+				atyid.setType(aDao.findByAccountTypeId(accType));
+					
+				int accUser = result.getInt("user_id");
+				atyid.setUser(uDao.findByUserId(accUser));
+				
+				 list.add(atyid);
+				}
+			return list;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 
 	@Override
 	public boolean addAccount(Account a) {
@@ -146,6 +228,9 @@ public class AccountDaoImpl implements AccountDao {
 		}
 		return false;
 	}
+	
+//=========================================================================================================================================================	
+	
 
 	@Override
 	public List<Avenger> findByHome(String homeName) {
@@ -164,11 +249,4 @@ public class AccountDaoImpl implements AccountDao {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public Account findByUserId(int user_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
