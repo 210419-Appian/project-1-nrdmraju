@@ -17,7 +17,7 @@ public class UserService {
 
 	}
 
-	public User findById(int userId) {
+	public User findByUserId(int userId) {
 		return uDao.findByUserId(userId);
 	}
 

@@ -207,28 +207,27 @@ public class AccountDaoImpl implements AccountDao {
 
 			int index = 0;
 //			statement.setInt(++index, a.getAccountId());
+//			statement.setDouble(++index, a.getBalance());
+//			statement.setString(++index, a.getStatus().getStatus());
+//			statement.setString(++index, a.getType().getType());
+//			statement.setInt(++index, a.getUser().getUserId());
+
 			statement.setDouble(++index, a.getBalance());
 			statement.setString(++index, a.getStatus().getStatus());
 			statement.setString(++index, a.getType().getType());
 			statement.setInt(++index, a.getUser().getUserId());
 			
-// \/ F IT AND COME BACK HERE \/ 		
-			if(a.getAccount() != null) {
-				statement.setString(++index, a.getHomeBases().getName());
-			} else {
-				statement.setString(++index, null);
-			}
-			
 			statement.execute();
+			
 			return true;
-
-
-		} catch (SQLException e) {
+			
+		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return false;
-	}
-	
+	}	
+//			
 //=========================================================================================================================================================	
 	
 

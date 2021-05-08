@@ -43,7 +43,6 @@ public class UserDaoImpl implements UserDao {
 						u.setRole(null);
 					
 				int rName = result.getInt("user_role");
-//				if(rName!=null) {
 					u.setRole(rDao.findByRoleId(rName));
 				list.add(u);
 			}
@@ -56,10 +55,10 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public User findByUserId(int user_id) {
+	public User findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM users WHERE user_id = "+user_id+";";
+			String sql = "SELECT * FROM users WHERE user_id = "+userId+";";
 
 			Statement statement = conn.createStatement();
 
@@ -89,6 +88,7 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	//Come back to this and finish the addUser method.
 	@Override
 	public boolean addUser(User u) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
