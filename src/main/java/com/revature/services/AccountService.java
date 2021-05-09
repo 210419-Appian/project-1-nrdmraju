@@ -23,4 +23,41 @@ public class AccountService {
 	public List<Account> findByUserId(int userId) {
 		return aDao.findByUserId(userId);
 	}
+	
+	public List<Account> findByAccountStatusId(int statusId) {
+		return aDao.findByAccountStatusId(statusId);
+	}
+	
+	public boolean createAccount(Account account) {
+		return aDao.addAccount(account);
+	}
+	
+	public Account getOneAccount(int id) {
+		return aDao.findById(id);
+	}
+	
+	public boolean putAccount(Account a) {
+		return aDao.updateAccount(a);
+	}
+	
+	public boolean updatePartialAccount(Account a) {
+		if (a.getAccountId() == 0) {
+			return false;
+		}
+
+		Account accData = getOneAccount(a.getAccountId());
+
+		if (a.getBalance() == 0.0) {
+			a.setBalance(accData.getBalance());
+		}
+		if (a.getStatus() == null) {
+			a.setStatus(accData.getStatus());
+		}
+		if (a.getType() == null) {
+			a.setType(accData.getType());
+		}
+		return aDao.updateAccount(a);
+
+	}
 }
+

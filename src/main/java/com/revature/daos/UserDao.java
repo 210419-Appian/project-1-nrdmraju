@@ -9,7 +9,7 @@ public interface UserDao {
 	public List<User> findAll();
 	public User findByUserId(int user_id);
 	public User findByUsername(String username);
-	public void updateUser(User u);
+	public boolean updateUser(User u);
 	public boolean addUser(User u);
 	
 }

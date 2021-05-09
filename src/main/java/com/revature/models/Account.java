@@ -6,6 +6,7 @@ public class Account {
 	  private AccountStatus status;
 	  private AccountType type;
 	  private User user;
+	  
 	public int getAccountId() {
 		return accountId;
 	}

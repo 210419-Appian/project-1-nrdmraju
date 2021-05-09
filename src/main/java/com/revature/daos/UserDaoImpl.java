@@ -54,6 +54,8 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 	
+//=========================================================================================================================================================	
+	
 	@Override
 	public User findByUserId(int userId) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
@@ -87,6 +89,75 @@ public class UserDaoImpl implements UserDao {
 		}
 		return null;
 	}
+//=========================================================================================================================================================	
+
+	@Override
+	public User findByUsername(String username) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM users WHERE username = ?;";
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, username);
+
+			ResultSet result = statement.executeQuery();
+
+			User u = null;
+			
+			while (result.next()) {
+				 u = new User(
+						result.getInt("user_id"),
+						result.getString("username"),
+						result.getString("user_password"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						result.getString("email"),
+						null);
+				 
+					int rName = result.getInt("user_role");
+					u.setRole(rDao.findByRoleId(rName));
+				
+				}
+			return u;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+//=========================================================================================================================================================	
+
+	@Override
+	public boolean updateUser(User u) {
+		try (Connection conn = ConnectionUtil.getConnection()) {
+
+			String sql = "UPDATE users "
+					 +"SET username = ?, user_password = ?, first_name = ?, "
+					+ "last_name = ?, email = ?, user_role =? WHERE user_id = ?; ";
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			int index = 0;
+			statement.setString(++index, u.getUsername());
+			statement.setString(++index, u.getPassword());
+			statement.setString(++index, u.getFirstName());
+			statement.setString(++index, u.getLastName());
+			statement.setString(++index, u.getEmail());
+			statement.setInt(++index, u.getRole().getRoleId());
+			statement.setInt(++index, u.getUserId());
+
+			
+			statement.execute();
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+//=========================================================================================================================================================	
 
 	//Come back to this and finish the addUser method.
 	@Override
@@ -94,20 +165,20 @@ public class UserDaoImpl implements UserDao {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
 			//There is no chance for sql injection with just an integer so this is safe. 
-			String sql = "INSERT INTO users (user_id, username, user_password, first_name, last_name, email, user_role)"
-					+ "	VALUES (?, ?, ?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO users (username, user_password, first_name, last_name, email, user_role)"
+					+ "	VALUES ( ?, ?, ?, ?, ?, ?);";
 
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 
 			int index = 0;
-			statement.setInt(++index, u.getUserId());
+//			statement.setInt(++index, u.getUserId());
 			statement.setString(++index, u.getUsername());
+			statement.setString(++index, u.getPassword());
 			statement.setString(++index, u.getFirstName());
 			statement.setString(++index, u.getLastName());
 			statement.setString(++index, u.getEmail());
-			statement.setString(++index, u.getPassword());
-			statement.setString(++index, u.getRole().getRole());
+			statement.setInt(++index, u.getRole().getRoleId());
 			
 			statement.execute();
 			return true;
@@ -119,16 +190,9 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 	
+//=========================================================================================================================================================	
+	
+	
  //HelloFrontController -> AvengerDaoImpl
-	@Override
-	public User findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateUser(User u) {
-		// TODO Auto-generated method stub
-	}
 
 }

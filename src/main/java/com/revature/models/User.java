@@ -1,7 +1,13 @@
 package com.revature.models;
 
-public class User {
-	  private int userId; // primary key
+//import java.io.Serializable;
+
+public class User {//implements Serializable{
+//	  /**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 1L;
+	private int userId; // primary key
 	  private String username; // not null, unique
 	  private String password; // not null
 	  private String firstName; // not null
@@ -52,11 +58,6 @@ public class User {
 		this.role = role;
 	}
 	
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", email=" + email + ", role=" + role + "]";
-	}
 	
 	public User(int userId, String username, String password, String firstName, String lastName, String email,
 			Role role) {
@@ -69,10 +70,19 @@ public class User {
 		this.email = email;
 		this.role = role;
 	}
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", role=" + role + "]";
 	}
-
+	
+	
+	  
+	  
+	  
+}
