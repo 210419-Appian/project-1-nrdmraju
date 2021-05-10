@@ -9,7 +9,7 @@ public interface AccountDao {
 	
 	public List<Account> findAll();
 	public Account findByAccountId(int id);
-	public List<Account> findByUserId(int userId);
+	public Account findByUserId(int userId);
 	public List<Account> findByAccountTypeId(int typeId);
 	public List<Account> findByAccountStatusId(int statusId);
 	public Account findById(int id);

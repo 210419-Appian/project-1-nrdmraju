@@ -20,7 +20,7 @@ public class AccountService {
 		return aDao.findByAccountId(Id);
 	}
 
-	public List<Account> findByUserId(int userId) {
+	public Account findByUserId(int userId) {
 		return aDao.findByUserId(userId);
 	}
 	

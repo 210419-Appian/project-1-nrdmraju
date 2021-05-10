@@ -112,7 +112,7 @@ public void getUserById(HttpServletRequest req, HttpServletResponse resp, int id
 		UserDaoImpl userDao = new UserDaoImpl();
 		User user = userDao.findByUsername(a);
 		
-		if((user.getRole().getRoleId() == 1) || (user.getRole().getRoleId() == 2)) {
+		if((user.getRole().getRoleId() == 1) || (user.getRole().getRoleId() == 2) || (user.getUserId() == user.getUserId())) {
 			pw.print(json);
 			resp.setStatus(200);
 		}else {
@@ -168,9 +168,7 @@ public void getUserByUsername( HttpServletResponse resp, String string) throws I
 
 	public void putUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		BufferedReader reader = req.getReader();
-
 		StringBuilder sb = new StringBuilder();
-
 		String line = reader.readLine();
 
 		while (line != null) {
@@ -179,14 +177,24 @@ public void getUserByUsername( HttpServletResponse resp, String string) throws I
 		}
 
 		String body = new String(sb);
-
 		User user = om.readValue(body, User.class);
 		
-		if(userServ.putUser(user)) {
-			resp.setStatus(200);
+		HttpSession ses = req.getSession();
+		String a = (String) ses.getAttribute("username");
+		UserDaoImpl userDao = new UserDaoImpl();
+		User adem = userDao.findByUsername(a);
+		
+		if((adem.getRole().getRoleId() == 1) || (adem.getRole().getRoleId() == user.getUserId())) {
+			if(userServ.putUser(user)) {
+				resp.setStatus(201);
+			}else {
+				resp.setStatus(406);
+			}
 		}else {
-			resp.setStatus(400);
-		}	
+			PrintWriter out = resp.getWriter();
+			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			resp.setStatus(401);
+		}
 	}
 
 	public void patchUser(HttpServletRequest req, HttpServletResponse resp) {

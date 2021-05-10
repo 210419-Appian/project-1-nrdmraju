@@ -67,18 +67,18 @@ public class FrontControllerServlet extends HttpServlet {
 			if (req.getMethod().equals("GET")) {
 				if (sections.length == 2) {
 					int id = Integer.parseInt(sections[1]);
-					accControl.getAccountById(resp, id);
+					accControl.getAccountById(req, resp, id);
 
 				} else if (sections.length == 3 && sections[1].equals("owner")){
 					int id = Integer.parseInt(sections[2]);
-					accControl.getAccountByUserId(resp, id);
+					accControl.getAccountByUserId(req, resp, id);
 
 				} else if ( sections.length == 3 && sections[1].equals("status")) {
 					int id = Integer.parseInt(sections[2]);
 					accControl.getAccountByStatusId(resp, id);
 
 				} else {
-					accControl.getAllAccounts(resp);
+					accControl.getAllAccounts(req, resp);
 				}
 
 			} else if (req.getMethod().equals("POST")) {

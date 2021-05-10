@@ -8,9 +8,11 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.daos.AccountDaoImpl;
+import com.revature.daos.UserDaoImpl;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.services.AccountService;
@@ -21,37 +23,80 @@ public class AccountController {
 	private ObjectMapper om = new ObjectMapper();
 	private AccountDaoImpl aDao = new AccountDaoImpl();
 	
-	public void getAllAccounts(HttpServletResponse resp) throws IOException {
+	public void getAllAccounts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		List<Account> list = accServ.getAllAccounts();
 		String json = om.writeValueAsString(list);
-		System.out.println(json);
+//		System.out.println(json);
 		PrintWriter pw = resp.getWriter();
-		pw.print(json);
-		resp.setStatus(200);
+//		pw.print(json);
+//		resp.setStatus(200);
+		
+		HttpSession ses = req.getSession();
+		String a = (String) ses.getAttribute("username");
+		UserDaoImpl userDao = new UserDaoImpl();
+		User user = userDao.findByUsername(a);
+		
+		if((user.getRole().getRoleId() == 1) || (user.getRole().getRoleId() == 2)) {
+			pw.print(json);
+			resp.setStatus(200);
+		}else {
+			PrintWriter out = resp.getWriter();
+			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			resp.setStatus(401);
+		}
 	}
 
-	public void getAccountById( HttpServletResponse resp, int id) throws IOException {
+	public void getAccountById(HttpServletRequest req, HttpServletResponse resp, int id) throws IOException {
 		
 		Account a = accServ.findByAccountId(id);
 		// Convert Java object into a JSON string that can be written to the body of an
 		// HTTP response
 		String json = om.writeValueAsString(a);
-		System.out.println(json);
+//		System.out.println(json);
 		PrintWriter pw = resp.getWriter();
-		pw.print(json);
-		resp.setStatus(200);
-
+//		pw.print(json);
+//		resp.setStatus(200);
+		
+		HttpSession ses = req.getSession();
+		String ac = (String) ses.getAttribute("username");
+		UserDaoImpl userDao = new UserDaoImpl();
+		User user = userDao.findByUsername(ac);
+		
+		if((user.getRole().getRoleId() == 1) || (user.getRole().getRoleId() == 2) || (user.getUserId() == accServ.findByUserId(id).getUser().getUserId())) {
+			pw.print(json);
+			resp.setStatus(200);
+		}else {
+			PrintWriter out = resp.getWriter();
+			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			resp.setStatus(401);
+		}
 	}
+
+	
 	
 
-	public void getAccountByUserId( HttpServletResponse resp, int id) throws IOException {
+	public void getAccountByUserId( HttpServletRequest req, HttpServletResponse resp, int id) throws IOException {
 		
-		List<Account> a = accServ.findByUserId(id);
+		Account a = accServ.findByUserId(id);
 		String json = om.writeValueAsString(a);
-		System.out.println(json);
+//		System.out.println(json);
 		PrintWriter pw = resp.getWriter();
-		pw.print(json);
-		resp.setStatus(200);
+//		pw.print(json);
+//		resp.setStatus(200);
+		
+		HttpSession ses = req.getSession();
+		String ac = (String) ses.getAttribute("username");
+		UserDaoImpl userDao = new UserDaoImpl();
+		User user = userDao.findByUsername(ac);
+		
+		if((user.getRole().getRoleId() == 1) || (user.getRole().getRoleId() == 2) || (user.getUserId() == accServ.findByUserId(id).getUser().getUserId())) {
+			pw.print(json);
+			resp.setStatus(200);
+		}else {
+			PrintWriter out = resp.getWriter();
+			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			resp.setStatus(401);
+		}
 
 	}
 	
