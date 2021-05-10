@@ -123,14 +123,14 @@ public class AccountController {
 		}
 
 		String body = new String(sb);
-		Account account = om.readValue(body, Account.class);
-		account = aDao.findByAccountId(account.getAccountId());
-		if(accServ.withdraw(account)) {
+
+		Account a = om.readValue(body, Account.class);
+
+		if(accServ.withdraw(a)) {
 			resp.setStatus(200);
 		}else {
 			resp.setStatus(400);
-		}	
-		
+		}
 	}
 	
 	public void depositAccount(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -144,14 +144,13 @@ public class AccountController {
 		}
 
 		String body = new String(sb);
-		Account account = om.readValue(body, Account.class);
-//		account = aDao.findByAccountId(account.getAccountId());
-		if(accServ.deposit(account)) {
+
+		Account a = om.readValue(body, Account.class);
+
+		if(accServ.deposit(a)) {
 			resp.setStatus(200);
 		}else {
 			resp.setStatus(400);
-		}	
-		
+		}
 	}
-
 }

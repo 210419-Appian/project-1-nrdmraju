@@ -64,10 +64,9 @@ public class AccountService {
 		if (a.getAccountId() == 0) {
 			return false;
 		}
-
 		Account accData = aDao.findByAccountId(a.getAccountId());
 
-		if (accData.getBalance() - a.getBalance() > 0.0) {
+		if (accData.getBalance() - a.getBalance() > 0) {
 			a.setBalance(accData.getBalance() - a.getBalance());
 		}
 		if (a.getStatus() == null) {

@@ -21,7 +21,7 @@ public class UserController {
 	private static UserService userServ = new UserService();
 	private static ObjectMapper om = new ObjectMapper();
 	
-	public static void login( HttpServletResponse resp, HttpServletRequest req) throws IOException {
+	public void login( HttpServletResponse resp, HttpServletRequest req) throws IOException {
 		UserDTO uDTO = new UserDTO();
 		BufferedReader reader = req.getReader();
 		StringBuilder sb = new StringBuilder();
@@ -48,7 +48,7 @@ public class UserController {
 		}	
 	}
 	
-	public static void logout( HttpServletResponse resp, HttpServletRequest req) throws IOException {
+	public void logout( HttpServletResponse resp, HttpServletRequest req) throws IOException {
 		if(req.getSession(false) == null) {
 			return;
 		}

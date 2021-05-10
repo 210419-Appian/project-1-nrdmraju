@@ -89,7 +89,7 @@ public class FrontControllerServlet extends HttpServlet {
 				
 			} else if (req.getMethod().equals("PATCH") && sections.length == 3) {
 						if(sections[1].equals("deposit")) {
-							System.out.println("this is deposit/withdraw call");
+//							System.out.println("this is deposit/withdraw call");
 							accControl.depositAccount(req, resp);
 						} else if(sections[1].equals("withdraw")) {
 							accControl.withdrawAccount(req, resp);
@@ -121,7 +121,6 @@ public class FrontControllerServlet extends HttpServlet {
 		}else {
 			super.service(req, resp);
 		}
-		doGet(req, resp);
 	}
 
 }
