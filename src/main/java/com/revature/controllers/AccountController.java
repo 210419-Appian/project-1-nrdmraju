@@ -41,7 +41,7 @@ public class AccountController {
 			resp.setStatus(200);
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("message: The requested action is not permitted!"));
 			resp.setStatus(401);
 		}
 	}
@@ -67,7 +67,7 @@ public class AccountController {
 			resp.setStatus(200);
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("message: The requested action is not permitted!"));
 			resp.setStatus(401);
 		}
 	}
@@ -94,7 +94,7 @@ public class AccountController {
 			resp.setStatus(200);
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("message: The requested action is not permitted!"));
 			resp.setStatus(401);
 		}
 

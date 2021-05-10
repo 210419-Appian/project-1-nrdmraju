@@ -43,6 +43,9 @@ public class UserController {
 			resp.setStatus(200);
 		}
 		else {
+			PrintWriter out = resp.getWriter();             
+			String message = new String("message : Invalid Credentials");            
+			out.print(message);
 //			System.out.println("<span style='color:red; text-align:center'>Invalid Username/Password</span>");
 			resp.setStatus(400);
 		}	
@@ -50,6 +53,9 @@ public class UserController {
 	
 	public void logout( HttpServletResponse resp, HttpServletRequest req) throws IOException {
 		if(req.getSession(false) == null) {
+			PrintWriter out = resp.getWriter();             
+			String message = new String(" You are now logged out!!");            
+			out.print(message);
 			return;
 		}
 		
@@ -61,6 +67,9 @@ public class UserController {
 		}
 		
 		else {
+			PrintWriter out = resp.getWriter();             
+			String message = new String(" There is no profile to sign out of!");            
+			out.print(message);
 			resp.setStatus(400);
 		}
 	}
@@ -117,7 +126,7 @@ public void getUserById(HttpServletRequest req, HttpServletResponse resp, int id
 			resp.setStatus(200);
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("message: The requested action is not permitted!"));
 			resp.setStatus(401);
 		}
 }
@@ -161,7 +170,7 @@ public void getUserByUsername( HttpServletResponse resp, String string) throws I
 			}
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("This action can't be completed, due to invalid fields!"));
 			resp.setStatus(401);
 		}
 	}
@@ -192,7 +201,7 @@ public void getUserByUsername( HttpServletResponse resp, String string) throws I
 			}
 		}else {
 			PrintWriter out = resp.getWriter();
-			out.print(om.writeValueAsString("This action can't be completed, please check if you have access!"));
+			out.print(om.writeValueAsString("message: The requested action is not permitted!"));
 			resp.setStatus(401);
 		}
 	}
