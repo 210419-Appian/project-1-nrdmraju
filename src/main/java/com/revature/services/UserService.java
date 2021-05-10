@@ -38,10 +38,7 @@ public class UserService {
 	public boolean loginVerif(UserDTO u) {
 //		System.out.println(u.username);
 		User userReq = uDao.findByUsername(u.username);
-//		System.out.println(userReq.toString());
-		
-//		System.out.println(userReq.toString());
-		
+
 		if((userReq.getPassword() != null) && (u.password.equals(userReq.getPassword()))){
 			return true;
 		}

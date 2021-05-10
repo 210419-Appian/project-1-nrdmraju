@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.daos.AccountDaoImpl;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.services.AccountService;
@@ -17,7 +19,7 @@ public class AccountController {
 
 	private AccountService accServ = new AccountService();
 	private ObjectMapper om = new ObjectMapper();
-	
+	private AccountDaoImpl aDao = new AccountDaoImpl();
 	
 	public void getAllAccounts(HttpServletResponse resp) throws IOException {
 		List<Account> list = accServ.getAllAccounts();
@@ -30,7 +32,7 @@ public class AccountController {
 
 	public void getAccountById( HttpServletResponse resp, int id) throws IOException {
 		
-		List<Account> a = accServ.findByAccountId(id);
+		Account a = accServ.findByAccountId(id);
 		// Convert Java object into a JSON string that can be written to the body of an
 		// HTTP response
 		String json = om.writeValueAsString(a);
@@ -110,8 +112,45 @@ public class AccountController {
 		}			
 	}
 
-	public void patchAccount(HttpServletRequest req, HttpServletResponse resp) {
+	public void withdrawAccount(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		BufferedReader reader = req.getReader();
+		StringBuilder sb = new StringBuilder();
+		String line = reader.readLine();
 
+		while (line != null) {
+			sb.append(line);
+			line = reader.readLine();
+		}
+
+		String body = new String(sb);
+		Account account = om.readValue(body, Account.class);
+		account = aDao.findByAccountId(account.getAccountId());
+		if(accServ.withdraw(account)) {
+			resp.setStatus(200);
+		}else {
+			resp.setStatus(400);
+		}	
+		
+	}
+	
+	public void depositAccount(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		BufferedReader reader = req.getReader();
+		StringBuilder sb = new StringBuilder();
+		String line = reader.readLine();
+
+		while (line != null) {
+			sb.append(line);
+			line = reader.readLine();
+		}
+
+		String body = new String(sb);
+		Account account = om.readValue(body, Account.class);
+//		account = aDao.findByAccountId(account.getAccountId());
+		if(accServ.deposit(account)) {
+			resp.setStatus(200);
+		}else {
+			resp.setStatus(400);
+		}	
 		
 	}
 

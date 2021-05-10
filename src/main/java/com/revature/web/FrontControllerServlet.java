@@ -34,16 +34,16 @@ public class FrontControllerServlet extends HttpServlet {
 
 		String[] sections = URL.split("/");
 
-		System.out.println(sections);
+		System.out.println(sections.length);
 
 		switch (sections[0]) {
 		case "user":
 			if (req.getMethod().equals("GET")) {
 				if (sections.length == 2) {
 					int id = Integer.parseInt(sections[1]);
-					uControl.getUserById(resp, id);
+					uControl.getUserById(req, resp, id);
 				} else {
-					uControl.getAllUsers(resp);
+					uControl.getAllUsers(req, resp);
 				}
 			} else if (req.getMethod().equals("POST")) {
 				uControl.addUser(req, resp);
@@ -86,13 +86,19 @@ public class FrontControllerServlet extends HttpServlet {
 
 			} else if (req.getMethod().equals("PUT") && sections.length == 2) {
 				accControl.putAccount(req, resp);
-
-			} else if (req.getMethod().equals("PATCH") && sections.length == 2) {
-				accControl.patchAccount(req, resp);
+				
+			} else if (req.getMethod().equals("PATCH") && sections.length == 3) {
+						if(sections[1].equals("deposit")) {
+							System.out.println("this is deposit/withdraw call");
+							accControl.depositAccount(req, resp);
+						} else if(sections[1].equals("withdraw")) {
+							accControl.withdrawAccount(req, resp);
+							
+						}
+					}
+				}
 			}
-		}
-
-	}
+	
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -104,19 +110,18 @@ public class FrontControllerServlet extends HttpServlet {
 		doGet(req, resp);
 	}
 
-//	@Override
-//	protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		doGet(req, resp);
-//	}
+	protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
+	}
 
-//	@Override
-//	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		if(req.getMethod().equals("PATCH")) {
-//			doPatch(req, resp);
-//		}else {
-//			super.service(req, resp);
-//		}
-//		doGet(req, resp);
-//	}
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if(req.getMethod().equals("PATCH")) {
+			doPatch(req, resp);
+		}else {
+			super.service(req, resp);
+		}
+		doGet(req, resp);
+	}
 
 }

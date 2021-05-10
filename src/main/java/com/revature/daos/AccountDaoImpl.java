@@ -75,7 +75,7 @@ public class AccountDaoImpl implements AccountDao {
 //=========================================================================================================================================================	
 	
 	@Override
-	public List<Account> findByAccountId(int id) {
+	public Account findByAccountId(int id) {
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
 			String sql = "SELECT * FROM accounts WHERE account_id = "+id+";";
@@ -84,10 +84,10 @@ public class AccountDaoImpl implements AccountDao {
 
 			ResultSet result = statement.executeQuery(sql);
 			
-			List<Account> list = new ArrayList<>();
+			Account acc = null;
 			
 			while (result.next()) {
-				Account abyaid = new Account(
+				acc = new Account(
 						result.getInt("account_Id"), 
 						result.getDouble("balance"), 
 						null, // account_status INTEGER REFERENCES account_status(status_id) createFindById in AccountStatusDaoImpl
@@ -95,17 +95,16 @@ public class AccountDaoImpl implements AccountDao {
 						null
 						);
 					int accStatus = result.getInt("account_status");
-					abyaid.setStatus(asDao.findByStatusId(accStatus));
+					acc.setStatus(asDao.findByStatusId(accStatus));
 					
 				int accType = result.getInt("account_type");
-				abyaid.setType(aDao.findByAccountTypeId(accType));
+				acc.setType(aDao.findByAccountTypeId(accType));
 					
 				int accUser = result.getInt("user_id");
-				abyaid.setUser(uDao.findByUserId(accUser));
+				acc.setUser(uDao.findByUserId(accUser));
 				
-				 list.add(abyaid);
-				}
-			return list;
+			return acc;
+		}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

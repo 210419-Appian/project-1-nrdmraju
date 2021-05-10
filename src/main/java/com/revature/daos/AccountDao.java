@@ -8,7 +8,7 @@ import com.revature.models.User;
 public interface AccountDao {
 	
 	public List<Account> findAll();
-	public List<Account> findByAccountId(int id);
+	public Account findByAccountId(int id);
 	public List<Account> findByUserId(int userId);
 	public List<Account> findByAccountTypeId(int typeId);
 	public List<Account> findByAccountStatusId(int statusId);

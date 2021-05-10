@@ -16,7 +16,7 @@ public class AccountService {
 
 	}
 
-	public List<Account> findByAccountId(int Id) {
+	public Account findByAccountId(int Id) {
 		return aDao.findByAccountId(Id);
 	}
 
@@ -56,6 +56,45 @@ public class AccountService {
 		if (a.getType() == null) {
 			a.setType(accData.getType());
 		}
+		return aDao.updateAccount(a);
+
+	}
+	
+	public boolean withdraw(Account a) {
+		if (a.getAccountId() == 0) {
+			return false;
+		}
+
+		Account accData = aDao.findByAccountId(a.getAccountId());
+
+		if (accData.getBalance() - a.getBalance() > 0.0) {
+			a.setBalance(accData.getBalance() - a.getBalance());
+		}
+		if (a.getStatus() == null) {
+			a.setStatus(accData.getStatus());
+		}
+//		if (a.getType() == null) {
+//			a.setType(accData.getType());
+//		}
+		return aDao.updateAccount(a);
+
+	}
+	
+	public boolean deposit(Account a) {
+		if (a.getAccountId() == 0) {
+			return false;
+		}
+		Account accData = aDao.findByAccountId(a.getAccountId());
+
+		if (accData.getBalance() + a.getBalance() >= 0) {
+			a.setBalance(accData.getBalance() + a.getBalance());
+		}
+		if (a.getStatus() == null) {
+			a.setStatus(accData.getStatus());
+		}
+//		if (a.getType() == null) {
+//			a.setType(accData.getType());
+//		}
 		return aDao.updateAccount(a);
 
 	}
